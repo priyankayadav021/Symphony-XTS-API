@@ -17,22 +17,22 @@ namespace XTSAPI.MarketData
         public ContractMapper() {
             Map(m => m.ExchangeSegment).Index(0).TypeConverter<ExchangeSegmentConverter>();
             Map(m => m.ExchangeInstrumentID).Index(1);
-            Map(m => m.InstrumentType).Index(2);
-            Map(m => m.Name).Index(3);
+            Map(m => m.InstrumentType).Index(2).TypeConverter<IntConverter>();
+            Map(m => m.Name).Index(3).TypeConverter<RemoveSpaces>();
             Map(m => m.Description).Index(4);
             Map(m => m.Series).Index(5);
             Map(m => m.NameWithSeries).Index(6);
             Map(m => m.InstrumentID).Index(7).TypeConverter<LongConverter>();
-            Map(m => m.PriceBand.High).Index(8);
-            Map(m => m.PriceBand.Low).Index(9);
-            Map(m => m.FreezeQty).Index(10);
-            Map(m => m.TickSize).Index(11);
-            Map(m => m.LotSize).Index(12);
-            Map(m => m.MultiPlier).Index(13);
+            Map(m => m.PriceBand.High).Index(8).TypeConverter<doublePriceConverter>();
+            Map(m => m.PriceBand.Low).Index(9).TypeConverter<doublePriceConverter>();
+            Map(m => m.FreezeQty).Index(10).TypeConverter<doublePriceConverter>();
+            Map(m => m.TickSize).Index(11).TypeConverter<doublePriceConverter>();
+            Map(m => m.LotSize).Index(12).TypeConverter<IntConverter>();
+            Map(m => m.MultiPlier).Index(13).TypeConverter<doublePriceConverter>();
             Map(m => m.UnderlyingInstrumentId).Index(14).TypeConverter<LongConverter>();
             Map(m => m.UnderlyingIndexName).Index(15).TypeConverter<NameConverter>();
             Map(m => m.ContractExpiration).Index(16).TypeConverter<DateTimeConverter>();
-            Map(m => m.StrikePrice).Index(17).TypeConverter<StrikePriceConverter>();
+            Map(m => m.StrikePrice).Index(17).TypeConverter<doublePriceConverter>();
             Map(m => m.OptionType).Index(18).TypeConverter<IntConverter>();
             //Map(m => m.DisplayName).Index(19).TypeConverter<NameConverter>();
             //Map(m => m.ExchangeName).Index(20).TypeConverter<NameConverter>();
@@ -104,6 +104,7 @@ namespace XTSAPI.MarketData
 
 
 
+
     public class LongConverter : DefaultTypeConverter
     {
         public override object ConvertFromString(string text, IReaderRow row, MemberMapData memberMapData)
@@ -113,13 +114,13 @@ namespace XTSAPI.MarketData
                 return -1L;
             }
             double value;
-            if(double.TryParse(text, NumberStyles.Float, CultureInfo.InvariantCulture, out value)) { 
+            if (double.TryParse(text, NumberStyles.Float, CultureInfo.InvariantCulture, out value))
+            {
                 return (long)value;
             }
             return null;
         }
     }
-
 
     public class DateTimeConverter : DefaultTypeConverter
     {
@@ -138,7 +139,7 @@ namespace XTSAPI.MarketData
         }
     }
 
-    public class StrikePriceConverter : DefaultTypeConverter
+    public class doublePriceConverter : DefaultTypeConverter
     {
         public override object ConvertFromString(string text, IReaderRow row, MemberMapData memberMapData)
         {
@@ -182,6 +183,21 @@ namespace XTSAPI.MarketData
             }
             else {
                 return text;
+            }
+        }
+    }
+
+    public class RemoveSpaces : DefaultTypeConverter
+    {
+        public override object ConvertFromString(string text, IReaderRow row, MemberMapData memberMapData)
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return "NONE";
+            }
+            else
+            {
+                return text.Replace(" ","");
             }
         }
     }

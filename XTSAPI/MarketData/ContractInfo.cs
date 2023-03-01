@@ -79,24 +79,43 @@ namespace XTSAPI.MarketData
                 if(this.Series.ToUpperInvariant() == "OPTIDX" && other.Series.ToUpperInvariant() == "OPTIDX")
                 {
                     if(this.Name == other.Name && this.ContractExpiration == other.ContractExpiration
-                        && this.StrikePrice == other.StrikePrice && this.OptionType == other.OptionType) { return true; }
+                        && this.StrikePrice == other.StrikePrice && this.OptionType == other.OptionType) 
+                    {
+                        return true; 
+                    }
                 }
                 else if (this.Series.ToUpperInvariant() == "FUTIDX" && other.Series.ToUpperInvariant() == "FUTIDX")
                 {
-                    if (this.Name == other.Name && this.ContractExpiration == other.ContractExpiration) { return true; }
+                    if (this.Name == other.Name && this.ContractExpiration == other.ContractExpiration) 
+                    { 
+                        return true; 
+                    }
                 }
-                if (this.Series.ToUpperInvariant() == "OPTSTK" && other.Series.ToUpperInvariant() == "OPTSTK")
+                else if (this.Series.ToUpperInvariant() == "OPTSTK" && other.Series.ToUpperInvariant() == "OPTSTK")
                 {
                     if (this.Name == other.Name && this.ContractExpiration == other.ContractExpiration
-                        && this.StrikePrice == other.StrikePrice && this.OptionType == other.OptionType) { return true; }
+                        && this.StrikePrice == other.StrikePrice && this.OptionType == other.OptionType) 
+                    { 
+                        return true; 
+                    }
                 }
-                if (this.Series.ToUpperInvariant() == "FUTSTK" && other.Series.ToUpperInvariant() == "FUTSTK")
+                else if (this.Series.ToUpperInvariant() == "FUTSTK" && other.Series.ToUpperInvariant() == "FUTSTK")
                 {
-                    if (this.Name == other.Name && this.ContractExpiration == other.ContractExpiration) { return true; }
+                    if (this.Name == other.Name && this.ContractExpiration == other.ContractExpiration) 
+                    { 
+                        return true; 
+                    }
                 }
-                if (this.Series.ToUpperInvariant() == "EQ" && other.Series.ToUpperInvariant() == "EQ")
+                else if (this.Series.ToUpperInvariant() == "EQ" && other.Series.ToUpperInvariant() == "EQ")
                 {
-                    if (this.Name == other.Name && this.ContractExpiration == other.ContractExpiration) { return true; }
+                    if (this.Name == other.Name && this.ContractExpiration == other.ContractExpiration) 
+                    { 
+                        return true; 
+                    }
+                }
+                else if(this.Series.ToUpperInvariant() == "INDEX" && other.Series.ToUpperInvariant() == "INDEX" && this.Name == other.Name)
+                {
+                    return true;
                 }
             }
             return false;
